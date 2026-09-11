@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebit | Restaurant & Lounge</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        obsidian: '#070708',
+                        charcoal: '#121214',
+                        darkBronze: '#1F1A17',
+                        goldAccent: '#D4AF37',
+                        goldHover: '#F3CD59',
+                        creamLight: '#FAF9F5',
+                        creamDark: '#EAE8E0',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    
+    <script>
+        // Hero and Space background image fallbacks
+        function handleHeroImgError(imgEl, type) {
+            if (type === 'mixology_bar') {
+                imgEl.src = "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1920";
+            } else if (type === 'vip_section') {
+                imgEl.src = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=1920";
+            }
+        }
+
+        // Clean fallback strategy: if local image fails to load in preview, swap immediately to curated web photo
+        function handleImgError(imgEl, fallbackUrl) {
+            if (imgEl.dataset.failed) return;
+            imgEl.dataset.failed = "true";
+            imgEl.src = fallbackUrl;
+        }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #070708;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F3CD59;
+        }
+    </style>
+</head>
+<body class="bg-obsidian text-creamLight font-sans antialiased overflow-x-hidden">
+
+    <header class="fixed top-0 left-0 right-0 z-50 bg-obsidian/90 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-full border border-goldAccent flex items-center justify-center bg-charcoal group-hover:border-goldHover transition-colors">
+                    <span class="font-serif text-lg text-goldAccent font-bold">N</span>
+                </div>
+                <div>
+                    <span class="block font-serif text-xl tracking-wider text-white uppercase font-bold">Nebit</span>
+                    <span class="block text-[9px] text-creamDark/60 tracking-[0.25em] uppercase font-semibold">Restaurant & Lounge</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex items-center space-x-10 text-xs tracking-widest uppercase font-medium">
+                <a href="#experience" class="text-creamDark/80 hover:text-goldAccent transition-colors">The Experience</a>
+                <a href="#services" class="text-creamDark/80 hover:text-goldAccent transition-colors">Our Services</a>
+                <a href="#menu" class="text-creamDark/80 hover:text-goldAccent transition-colors">Menu</a>
+                <a href="#atmosphere" class="text-creamDark/80 hover:text-goldAccent transition-colors">Atmosphere</a>
+            </nav>
+
+            <div class="hidden lg:flex items-center space-x-4">
+                <a href="#contact" class="bg-goldAccent hover:bg-goldHover text-obsidian px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg shadow-goldAccent/10">
+                    Get In Touch
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="md:hidden text-white focus:outline-none" id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Drawer -->
+        <div class="hidden md:hidden bg-obsidian border-b border-white/5 px-6 py-6" id="mobile-menu">
+            <nav class="flex flex-col space-y-4 text-xs tracking-widest uppercase font-medium">
+                <a href="#experience" onclick="toggleMobileMenu()" class="text-creamDark/80 hover:text-goldAccent py-2">The Experience</a>
+                <a href="#services" onclick="toggleMobileMenu()" class="text-creamDark/80 hover:text-goldAccent py-2">Our Services</a>
+                <a href="#menu" onclick="toggleMobileMenu()" class="text-creamDark/80 hover:text-goldAccent py-2">Menu</a>
+                <a href="#atmosphere" onclick="toggleMobileMenu()" class="text-creamDark/80 hover:text-goldAccent py-2">Atmosphere</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="bg-goldAccent text-obsidian text-center px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider">
+                    Get In Touch
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="relative min-h-screen bg-obsidian flex items-center justify-center pt-24 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/40 to-transparent z-10"></div>
+        <div class="absolute inset-0 z-0">
+            <img src="mixology_bar.png" 
+                 alt="Nebit Bar Area" 
+                 class="w-full h-full object-cover object-center brightness-[0.35] scale-105"
+                 onerror="handleHeroImgError(this, 'mixology_bar')">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-20 w-full grid lg:grid-cols-12 gap-12 py-12">
+            <div class="lg:col-span-9 flex flex-col justify-center text-left">
+                <div class="inline-flex items-center space-x-2 bg-goldAccent/10 border border-goldAccent/30 px-4 py-1.5 rounded-full w-fit mb-6">
+                    <span class="w-2 h-2 rounded-full bg-goldAccent animate-ping"></span>
+                    <span class="text-[10px] tracking-[0.25em] uppercase text-goldAccent font-semibold">Fine Dining & Elevated Nightlife</span>
+                </div>
+                
+                <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white font-bold leading-[1.1] mb-6 uppercase tracking-tight">
+                    Nebit <br><span class="italic text-goldAccent text-[0.7em] md:text-[0.65em] block">Restaurant & Lounge</span>
+                </h1>
+                
+                <p class="text-creamDark/80 text-lg md:text-xl max-w-2xl font-light leading-relaxed mb-10">
+                    Nebit fuses masterfully crafted gastronomy with an ultra-sophisticated lounge atmosphere. Step in for unforgettable dinners, stay for signature mixology and curated global beats.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="#services" class="bg-goldAccent hover:bg-goldHover text-obsidian px-8 py-4 rounded-full text-sm font-bold uppercase tracking-wider transition-all duration-300 text-center shadow-xl shadow-goldAccent/15">
+                        Explore Our Services
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-charcoal relative overflow-hidden" id="experience">
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-goldAccent/5 rounded-full blur-3xl"></div>
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+            <div class="space-y-8">
+                <span class="text-xs uppercase tracking-[0.3em] text-goldAccent font-bold block">The Philosophy</span>
+                <h2 class="font-serif text-4xl md:text-5xl lg:text-6xl text-white font-semibold leading-tight">
+                    A Culinary Destination. <br><span class="italic text-goldAccent">A Lounge for Connoisseurs.</span>
+                </h2>
+                <div class="w-16 h-0.5 bg-goldAccent/40 mx-auto"></div>
+                <p class="text-creamDark/70 leading-relaxed text-base md:text-lg font-light max-w-3xl mx-auto">
+                    At Nebit, we celebrate the finer things in life. Our dining room showcases an elegant menu featuring fresh, traditional recipes cooked to absolute perfection by our culinary specialists.
+                </p>
+                <p class="text-creamDark/70 leading-relaxed text-base md:text-lg font-light max-w-3xl mx-auto">
+                    As the night matures, Nebit transforms. Our architectural lounge area becomes the heart of the venue—where craft mixologists shake up premium cocktails, local and guest DJs cultivate high-fidelity audio vibes, and guests relax in lush, dim-lit comfort.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-obsidian text-white relative border-t border-b border-white/5" id="services">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.3em] text-goldAccent font-bold block mb-3">Our Offerings</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">Bespoke Guest Services</h2>
+                <p class="text-creamDark/60 leading-relaxed font-light">
+                    Nebit delivers an unparalleled commitment to premium hospitality. Discover the elite dining, luxury lounge, and event services we provide.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Service 1: Fine Dining -->
+                <div class="bg-charcoal/40 p-8 rounded-3xl border border-white/5 hover:border-goldAccent/20 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-goldAccent/10 border border-goldAccent/30 rounded-2xl flex items-center justify-center mb-6 text-goldAccent group-hover:bg-goldAccent group-hover:text-obsidian transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.168.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3">Fine Dining</h3>
+                        <p class="text-xs text-creamDark/60 leading-relaxed mb-6">
+                            Experience premium meat selections featuring freshly prepared authentic specialties like Kitfo and select premium raw meats, crafted with high precision.
+                        </p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-goldAccent">Dining Room</span>
+                </div>
+
+                <!-- Service 2: Elite Bar Experience -->
+                <div class="bg-charcoal/40 p-8 rounded-3xl border border-white/5 hover:border-goldAccent/20 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-goldAccent/10 border border-goldAccent/30 rounded-2xl flex items-center justify-center mb-6 text-goldAccent group-hover:bg-goldAccent group-hover:text-obsidian transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3">ELITE BAR EXPERIENCE</h3>
+                        <p class="text-xs text-creamDark/60 leading-relaxed mb-6">
+                            Immersive cocktail lounge service with custom molecular infusions and premium arrangements designed in real-time.
+                        </p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-goldAccent">Cocktail Lab</span>
+                </div>
+
+                <!-- Service 3: Private Events -->
+                <div class="bg-charcoal/40 p-8 rounded-3xl border border-white/5 hover:border-goldAccent/20 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-goldAccent/10 border border-goldAccent/30 rounded-2xl flex items-center justify-center mb-6 text-goldAccent group-hover:bg-goldAccent group-hover:text-obsidian transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3">Private Events & Buyouts</h3>
+                        <p class="text-xs text-creamDark/60 leading-relaxed mb-6">
+                            Secure full-venue buyouts or private room rentals for elegant corporate socials, elite cocktail receptions, and celebrations.
+                        </p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-goldAccent">Bespoke Booking</span>
+                </div>
+
+                <!-- Service 4: VIP Lounge Service -->
+                <div class="bg-charcoal/40 p-8 rounded-3xl border border-white/5 hover:border-goldAccent/20 transition-all duration-300 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 bg-goldAccent/10 border border-goldAccent/30 rounded-2xl flex items-center justify-center mb-6 text-goldAccent group-hover:bg-goldAccent group-hover:text-obsidian transition-all duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-serif text-xl font-bold text-white mb-3">VIP Lounge Table Service</h3>
+                        <p class="text-xs text-creamDark/60 leading-relaxed mb-6">
+                            Enjoy dedicated personal concierge hostesses, customizable premium bottle-service arrangements, and premier lounge seating.
+                        </p>
+                    </div>
+                    <span class="text-xs font-semibold uppercase tracking-wider text-goldAccent">Gold VIP Lounge</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-obsidian text-white relative" id="menu">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.3em] text-goldAccent font-bold block mb-3">Our Culinary Art</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">Explore the Menu</h2>
+                <p class="text-creamDark/60 leading-relaxed font-light">
+                    Select a category below to discover our curated selections, meticulously prepared to honor exquisite local flavor profiles and elite spirit choices.
+                </p>
+            </div>
+
+            <!-- Menu Navigation Tabs -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button onclick="switchMenu('mains')" id="menu-tab-mains" class="menu-btn px-6 py-3 border border-goldAccent bg-goldAccent text-obsidian rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300">
+                    Main Courses
+                </button>
+                <button onclick="switchMenu('drinks')" id="menu-tab-drinks" class="menu-btn px-6 py-3 border border-white/10 text-white rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:border-goldAccent">
+                    Drinks & Whiskeys
+                </button>
+            </div>
+
+            <!-- Dynamic Menu Grid Container -->
+            <div class="grid lg:grid-cols-2 gap-8 items-start" id="menu-display-container">
+                <!-- Javascript populates menu items dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-charcoal text-white relative" id="atmosphere">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.3em] text-goldAccent font-bold block mb-3">Vibe & Architectural Space</span>
+                <h2 class="font-serif text-4xl md:text-5xl font-bold mb-6">The Nebit Spaces</h2>
+                <p class="text-creamDark/60 leading-relaxed font-light">
+                    Every corner of Nebit is meticulously designed to appeal to taste, touch, sight, and sound.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Space 1: Bar Area -->
+                <div class="group relative overflow-hidden rounded-2xl border border-white/5 bg-obsidian">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="mixology_bar.png" 
+                             alt="The Bar Area" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                             onerror="handleHeroImgError(this, 'mixology_bar')">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif text-xl font-bold mb-2 text-white">The Bar Area</h3>
+                        <p class="text-xs text-creamDark/60 leading-relaxed">
+                            Watch our master bartenders design custom sensory fluid concepts, craft molecular variations, and pour selective rare labels.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Space 2: VIP Section -->
+                <div class="group relative overflow-hidden rounded-2xl border border-white/5 bg-obsidian">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="vip_section.png" 
+                             alt="VIP Section" 
+                             class="w-full h-full object-cover group-hover:scale-105 transition-all duration-500"
+                             onerror="handleHeroImgError(this, 'vip_section')">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-serif text-xl font-bold mb-2 text-white">The VIP Section</h3>
+                        <p class="text-xs text-creamDark/60 leading-relaxed">
+                            Lush premium VIP booths with pristine host service. Perfectly positioned next to our high-fidelity custom acoustic entertainment module.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-obsidian relative border-t border-white/5" id="contact">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="bg-charcoal rounded-3xl border border-white/5 shadow-2xl overflow-hidden">
+                <div class="bg-darkBronze text-white p-8 lg:p-12 text-center relative">
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                    <span class="text-[10px] tracking-[0.25em] uppercase text-goldAccent font-bold block mb-2">Bespoke Planning</span>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold">General & Event Inquiries</h2>
+                    <p class="text-creamDark/70 text-xs md:text-sm mt-3 font-light max-w-lg mx-auto">
+                        Inquire about venue buyouts, private lounge layout sessions, VIP table hosting, or menu details.
+                    </p>
+                </div>
+
+                <form id="contact-form" onsubmit="handleInquirySubmit(event)" class="p-8 lg:p-12 space-y-6">
+                    <div id="form-error-banner" class="hidden bg-red-950 text-red-200 border border-red-900 p-4 rounded-xl text-xs font-medium leading-relaxed">
+                        There was an issue processing your request. Please check your network or contact us directly at <span class="font-bold underline">info@nebitlounge.com</span>.
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-creamDark/60 mb-2">Full Name</label>
+                            <input type="text" id="form-name" required class="w-full px-4 py-3 bg-obsidian border border-white/10 focus:border-goldAccent focus:ring-0 rounded-lg text-sm text-white outline-none" placeholder="e.g. Michael Abraham">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-creamDark/60 mb-2">Phone Number</label>
+                            <input type="tel" id="form-phone" required class="w-full px-4 py-3 bg-obsidian border border-white/10 focus:border-goldAccent focus:ring-0 rounded-lg text-sm text-white outline-none" placeholder="e.g. +251...">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-creamDark/60 mb-2">Inquiry Type</label>
+                            <select id="form-type" class="w-full px-4 py-3 bg-obsidian border border-white/10 focus:border-goldAccent focus:ring-0 rounded-lg text-sm text-white outline-none">
+                                <option value="private-dining">Private Group Dining</option>
+                                <option value="venue-buyout">Full Venue Buyout</option>
+                                <option value="vip-lounge">VIP Lounge Service</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] uppercase tracking-wider font-bold text-creamDark/60 mb-2">Your Email Address</label>
+                            <input type="email" id="form-email" required class="w-full px-4 py-3 bg-obsidian border border-white/10 focus:border-goldAccent focus:ring-0 rounded-lg text-sm text-white outline-none" placeholder="e.g. name@example.com">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-wider font-bold text-creamDark/60 mb-2">Tell Us About Your Request</label>
+                        <textarea id="form-notes" rows="4" required class="w-full px-4 py-3 bg-obsidian border border-white/10 focus:border-goldAccent focus:ring-0 rounded-lg text-sm text-white outline-none" placeholder="How can we elevate your Nebit experience?"></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" id="form-submit-btn" class="w-full bg-goldAccent hover:bg-goldHover text-obsidian font-bold uppercase tracking-wider text-xs py-4 rounded-lg transition-all duration-300">
+                            Transmit Inquiry Request
+                        </button>
+                    </div>
+                </form>
+
+                <div id="form-success" class="hidden p-12 text-center space-y-6">
+                    <div class="w-16 h-16 bg-goldAccent/10 border border-goldAccent rounded-full flex items-center justify-center mx-auto text-goldAccent">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-white">Inquiry Received</h3>
+                    <p class="text-creamDark/75 text-sm max-w-md mx-auto leading-relaxed">
+                        We have successfully logged your inquiry. Our luxury concierge desk will review your parameters and reach back out within 24 business hours.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-obsidian text-creamDark/60 py-16 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
+            <div class="space-y-4">
+                <span class="block font-serif text-lg tracking-wider text-white uppercase font-bold">Nebit <span class="text-goldAccent">Lounge</span></span>
+                <p class="text-xs leading-relaxed">
+                    Setting the peak of premium dining and nightlife elegance. A perfect balance between high art and immersive lounge environments.
+                </p>
+            </div>
+            <div>
+                <h4 class="text-white text-xs uppercase tracking-widest font-bold mb-4">Hours of Operations</h4>
+                <ul class="space-y-2 text-xs">
+                    <li class="flex items-center space-x-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-goldAccent"></span>
+                        <span class="text-white font-semibold">Open Everyday</span>
+                    </li>
+                    <li class="text-creamDark/80 pl-3.5">Monday – Sunday: 5:00 PM – 3:00 AM</li>
+                    <li class="text-creamDark/50 pl-3.5 italic">Kitchen & Executive Dining Open Daily</li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white text-xs uppercase tracking-widest font-bold mb-4">Location & VIP</h4>
+                <p class="text-xs leading-relaxed">
+                    Nebit Executive Lounge<br>
+                    <span class="text-white font-medium">Shell Beside Petrol Station</span><br>
+                    Dire Dawa, Ethiopia<br>
+                    <span class="text-goldAccent font-semibold">info@nebitlounge.com</span>
+                </p>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 border-t border-white/5 mt-12 pt-8 text-center text-xs">
+            <p>&copy; 2026 Nebit Restaurant & Lounge. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Menu item definitions referencing your local files or online fallbacks
+        const menus = {
+            mains: [
+                {
+                    title: "Tibs",
+                    desc: "Tender, high-quality beef cubes pan-seared and sautéed perfectly with sliced organic onions, fresh garlic, green chilies, and purified spiced herb butter (Nitir Kibe).",
+                    img: "tibs.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=600"
+                },
+                {
+                    title: "Shekla Tibs",
+                    desc: "Savor tender, marinated beef cubes seared to perfection and served bubbling hot on a traditional earthenware clay burner (Shekla) with burning charcoal, fresh rosemary, green chilies, and purified spiced butter (Nitir Kibe).",
+                    img: "shekla tibs.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=600"
+                },
+                {
+                    title: "Kitfo",
+                    desc: "Premium minced lean beef seasoned beautifully with authentic Mitmita chili blend and completely marinated in warm, aromatic purified spiced butter (Nitir Kibe).",
+                    img: "kitfo.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1514944288352-fffac99f0bdf?q=80&w=600"
+                },
+                {
+                    title: "Raw Meat (Tere Siga)",
+                    desc: "Exquisitely sourced, freshly carved premium cuts of high-grade raw beef served entirely in traditional fashion alongside specialized Awaze dipping pastes and Senafitch.",
+                    img: "tire sega.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1588168333986-5078d3ae3976?q=80&w=600"
+                },
+                {
+                    title: "Beyayenet",
+                    desc: "A vibrant, colorful array of traditional vegan delicacies including spicy red lentils (Misir Wot), yellow split peas (Kik Alicha), braised collard greens (Gomen), and savory cabbage & carrots, artfully arranged on sourdough Injera.",
+                    img: "beyayenet.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=600"
+                }
+            ],
+            drinks: [
+                {
+                    title: "Gordon's",
+                    desc: "Classic London Dry Gin featuring refined botanical notes, crisp juniper berry depth, and a clean, refreshing finish.",
+                    img: "gordons.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?q=80&w=600"
+                },
+                {
+                    title: "Jägermeister",
+                    desc: "Iconic German herbal liqueur crafted from 56 premium herbs, blossoms, roots, and fruits. Served ice-cold.",
+                    img: "jagermeister.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=600"
+                },
+                {
+                    title: "Chivas Regal",
+                    desc: "An exceptional blended Scotch whisky offering rich, smooth layers of wild herbs, heather, honey, and orchard fruits.",
+                    img: "chivas.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1527281400683-1aae777175f8?q=80&w=600"
+                },
+                {
+                    title: "Johnnie Walker Black Label",
+                    desc: "Masterfully aged blended Scotch whisky with deep flavors of rich fruit, sweet vanilla, and a signature smoky finish.",
+                    img: "black_label.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?q=80&w=600"
+                },
+                {
+                    title: "Jack Daniel's",
+                    desc: "Classic Old No. 7 Tennessee Whiskey charcoal-mellowed drop by drop for a smooth balance of sweet caramel and oak.",
+                    img: "jack_daniels.jpg",
+                    fallbackImg: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?q=80&w=600"
+                }
+            ]
+        };
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) {
+                menu.classList.toggle('hidden');
+            }
+        }
+
+        function switchMenu(categoryKey) {
+            document.querySelectorAll('.menu-btn').forEach(btn => {
+                btn.className = "menu-btn px-6 py-3 border border-white/10 text-white rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 hover:border-goldAccent";
+            });
+
+            const activeBtn = document.getElementById(`menu-tab-${categoryKey}`);
+            if (activeBtn) {
+                activeBtn.className = "menu-btn px-6 py-3 border border-goldAccent bg-goldAccent text-obsidian rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300";
+            }
+
+            const container = document.getElementById('menu-display-container');
+            const items = menus[categoryKey] || [];
+
+            if (container) {
+                container.innerHTML = items.map(item => `
+                    <div class="bg-charcoal/60 border border-white/5 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6 group hover:border-goldAccent/30 transition-all duration-300">
+                        <img src="${item.img}" alt="${item.title}" class="w-24 h-24 sm:w-28 sm:h-28 rounded-xl object-cover border border-white/10 group-hover:scale-105 transition-transform duration-300" onerror="handleImgError(this, '${item.fallbackImg}')">
+                        <div class="flex-1 text-center sm:text-left">
+                            <h3 class="font-serif text-xl font-bold text-white mb-2 group-hover:text-goldAccent transition-colors">${item.title}</h3>
+                            <p class="text-creamDark/70 text-xs leading-relaxed font-light">${item.desc}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Submit handler for general inquiry form
+        function handleInquirySubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('contact-form');
+            const success = document.getElementById('form-success');
+            if (form && success) {
+                form.classList.add('hidden');
+                success.classList.remove('hidden');
+            }
+        }
+
+        // Initialize default tab on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            switchMenu('mains');
+        });
+    </script>
+</body>
+</html>
